@@ -1,0 +1,35 @@
+insert into orders (order_id,
+					order_date,
+					order_required_date,
+					order_shipped_date,
+				order_freight,
+				order_sub_total,
+				order_total_qty,
+				order_ship_city,
+				order_ship_address,
+				 order_employee_id,
+				 order_ship_id
+				)
+				
+select * from dblink('localhost1',
+					 'select a.order_id,a.order_date,a.required_date,a.shipped_date, a.freight,(sum(b.unit_price)*sum(b.quantity)),
+		sum(b.quantity),a.ship_city,a.ship_address,a.employee_id,a.ship_via
+from orders a
+join order_detail b on a.order_id = b.order_detail_id
+group by a.order_id
+					 ')
+				as data
+				(
+				order_id int,
+				order_date date,
+				order_required_date date,
+				order_shipped_date date,
+				order_freight money,
+				order_sub_total money,
+				order_total_qty smallint,
+				order_ship_city varchar(15),
+				order_ship_address varchar(60),
+				order_employee_id int,
+				order_ship_id int
+				
+				)

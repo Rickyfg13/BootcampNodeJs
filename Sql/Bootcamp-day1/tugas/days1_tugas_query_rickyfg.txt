@@ -1,0 +1,117 @@
+-- 1
+select count(a.department_id) as jumlah_department, d.region_name
+from departments a
+join locations b on a.location_id = b.location_id
+join countries c on c.country_id = b.country_id
+join regions d on d.region_id = c.region_id
+group by d.region_name
+
+-- 2
+select count(a.department_id) as jumlah_department, c.country_name
+from departments a
+join locations b on a.location_id = b.location_id
+join countries c on c.country_id = b.country_id
+group by c.country_name
+
+-- 3
+select count(a.employee_id) as jumlah_employee, b.department_name
+from employees a
+join departments b on a.department_id = b.department_id
+group by b.department_name
+
+-- 4
+select count(employee_id) as jumlah_employee, e.region_name
+from employees a
+join departments b on a.department_id = b.department_id
+join locations c on c.location_id = b.location_id
+join countries d on d.country_id = c.country_id
+join regions e on e.region_id = e.region_id
+group by e.region_name
+
+-- 5
+select count(a.employee_id) as jumlah_employee, d.country_name
+from employees a
+join departments b on a.department_id = b.department_id
+join locations c on c.location_id = b.location_id
+join countries d on d.country_id = c.country_id
+group by d.country_name
+
+-- 6
+select max(a.salary) as gaji_tertinggi, b.department_name
+from employees a
+join departments b on a.department_id = b.department_id
+group by b.department_name
+
+-- 7
+select min(a.salary) as gaji_terendah, b.department_name
+from employees a
+join departments b on a.department_id = b.department_id
+group by b.department_name
+
+-- 8 
+select avg(a.salary) as rata_gaji, b.department_name
+from employees a
+join departments b on a.department_id = b.department_id
+group by b.department_name
+
+-- 9 
+select b.department_id, count(a.employee_id) as jumlah_mutasi, b.department_name
+from job_history a
+join departments b on a.department_id = b.department_id
+join employees c on a.employee_id = c.employee_id
+group by b.department_id
+
+
+
+--10
+select count(a.employee_id) as jumlah_mutasi, c.job_title as role_job
+from job_history a
+join departments b on a.department_id = b.department_id
+join jobs c on a.job_id = c.job_id
+group by role_job
+order by role_job desc
+
+
+--11
+select b.department_id, count(a.employee_id) as jumlah_mutasi, b.department_name
+from job_history a
+join departments b on a.department_id = b.department_id
+join employees c on a.employee_id = c.employee_id
+group by b.department_id 
+order by jumlah_mutasi Desc
+
+--12
+select a.job_title as role_job, count(c.employee_id) as jumlah_employee
+from jobs a
+join employees c on a.job_id = c.job_id
+group by a.job_id
+order by role_job desc
+
+--13
+select b.department_id,b.department_name ,min(a.hire_date) min_hire_date
+from employees a
+join departments b on a.department_id = b.department_id
+group by b.department_id
+order by b.department_id asc
+
+-- 14
+select a.department_id, a.department_name,max(b.hire_date)
+from departments a
+join employees b on a.department_id = b.department_id
+group by a.department_id
+order by a.department_id asc
+
+
+-- 15 
+select a.employee_id, extract(year from current_date) - extract(year from a.hire_date) lama_kerja,
+		case
+			when count(b.job_id) is null then 0
+			else count(b.job_id)
+		end
+from employees a 
+join job_history b on b.department_id = a.department_id
+group by a.employee_id
+order by a.employee_id asc
+
+
+

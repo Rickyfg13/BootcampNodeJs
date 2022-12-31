@@ -1,0 +1,35 @@
+select a.region_id,a.region_name,b.country_name
+from regions a, countries b
+where a.region_id=b.region_id
+and a.region_id=3	
+order by a.region_id
+
+select * from employees r 
+left join jobs c on r.job_id = c.job_id
+
+select * from regions r right join countries c on r.region_id = c.region_id
+
+select * from employees r
+join jobs c on r.job_id = c.job_id
+join job_history b on r.job_id = b.job_id
+
+select department_id, sum(salary) as salary from employees group by department_id
+having sum(salary) <= 6500
+
+select employee_id, first_name, last_name from employees
+where first_name like 'Da%'
+
+select * from departments where 
+location_id in (select location_id
+from locations l, countries c where l.country_id = c.country_id)
+			
+select concat(first_name,' ',last_name)fullname from employees
+
+select a.manager_id,concat(a.first_name,' ', a.last_name) as manager_name, b.department_name
+from employees a
+join departments b on a.department_id = b.department_id
+where a.manager_id = null;
+
+
+select * from employees
+select * from departments
